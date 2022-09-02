@@ -3,7 +3,6 @@ import {BASE_URL} from "./consts";
 import version from "../../package.json";
 
 import userAPI from "./userAPI";
-import questionsAPI from "./questionsAPI";
 
 let configData: any;
 
@@ -31,7 +30,6 @@ axios.interceptors.request.use(
 
 class APIService {
   user = userAPI;
-  questions = questionsAPI;
 }
 
 const API = new APIService();

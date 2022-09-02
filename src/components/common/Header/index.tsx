@@ -1,4 +1,5 @@
 import {observer} from "mobx-react-lite";
+import {Push} from "../Push";
 
 import "./Header.scss";
 
@@ -12,7 +13,8 @@ const Header: React.FC<Props> = observer(
   ({leftContent, prevPage = "", rightContent}) => {
     return (
       <div className="header">
-        <div className="header__title">{leftContent && leftContent}</div>
+        {leftContent && leftContent}
+        <Push orientation="horizontal" size={16} />
         {rightContent && rightContent}
       </div>
     );

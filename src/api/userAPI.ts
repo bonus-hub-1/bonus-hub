@@ -1,16 +1,11 @@
 import {UserInfo} from "@vkontakte/vk-bridge/dist/types/src/types/data";
 import axios from "axios";
-import {UserType} from "../types/user";
-import {
-  vkValidationParamsData,
-  vkValidationParamsDataJSON,
-} from "../utils/constants";
+import {vkValidationParamsString} from "../utils/constants";
 
 class ProfileAPI {
   loginUser = async (userData: UserInfo): Promise<string> => {
-    const res = await axios.post(`/v1/auth/login`, {
-      vk_sign: vkValidationParamsData,
-      user_data: userData,
+    const res = await axios.post(`/v1/auth/login/${vkValidationParamsString}`, {
+      ...userData,
     });
     return res.data;
   };

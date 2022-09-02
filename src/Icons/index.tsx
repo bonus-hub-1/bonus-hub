@@ -1,3 +1,5 @@
+import {SpinnerIconProps} from "../types/incos";
+
 export const WalletIcon = () => {
   return (
     <svg
@@ -176,9 +178,18 @@ export const CloseIcon = () => {
   );
 };
 
-export const SpinnerIcon = () => (
+export const SpinnerIcon: React.FC<SpinnerIconProps> = ({
+  size = 24,
+}): JSX.Element => (
   <svg
     className="spinner"
+    style={{
+      width: `${size}px`,
+      height: `${size}px`,
+    }}
+    // width={size}
+    // height={size}
+    // viewBox={`0 0 ${size} ${size}`}
     width="24"
     height="24"
     viewBox="0 0 24 24"

@@ -4,6 +4,7 @@ type WsStatusType = "connecting" | "connected" | "disconnected";
 
 export class WsStore {
   wsStatus = "disconnected";
+  wsUrl = "";
 
   changeWsConnectionStatus = (status: WsStatusType) => {
     this.wsStatus = status;

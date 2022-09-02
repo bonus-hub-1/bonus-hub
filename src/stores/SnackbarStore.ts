@@ -11,10 +11,10 @@ export class SnackbarStore {
   snackbarColor = "";
   snackbarType = "";
 
-  setShowSnackbar = (val: boolean, text: string, type: string) => {
-    this.showSnackbar = val;
+  setShowSnackbar = (text: string, type: "success" | "danger" | "warn") => {
+    this.showSnackbar = true;
     this.snackbarText = text;
-    this.snackbarType = text;
+    this.snackbarType = type;
     switch (true) {
       case type === "success":
         this.snackbarColor = SUCCESS_COLOR;

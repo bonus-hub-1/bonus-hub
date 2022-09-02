@@ -5,6 +5,7 @@ import {
   SnackbarStore,
   PanelStore,
   WsStore,
+  SharingMenuStore,
 } from "../stores";
 
 export const stores = {
@@ -13,6 +14,7 @@ export const stores = {
   SnackbarStore: new SnackbarStore(),
   PanelStore: new PanelStore(),
   WsStore: new WsStore(),
+  SharingMenuStore: new SharingMenuStore(),
 };
 
 export const storesContext = React.createContext(stores);

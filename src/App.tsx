@@ -1,7 +1,11 @@
 import React, {useState, useEffect} from "react";
 
+import "./ws/connection.ts";
+
 import "antd/dist/antd.css";
 import "./index.scss";
+
+import "@vkontakte/vkui/dist/vkui.css";
 
 import {RootModal} from "./components/Modals/RootModal";
 import {Router, Redirect} from "@reach/router";
@@ -10,33 +14,24 @@ import {Dashboard} from "./pages/Dashboard";
 import {observer} from "mobx-react-lite";
 import {useStores} from "./hooks/useStores";
 import {useGetUserInfo} from "./utils/hooks";
+import {toJS} from "mobx";
+import {CustomSnackbar} from "./components/Snackbar";
+import {SharingMenu} from "./components/common/SharingMenu";
 
 const App: React.FC = observer(() => {
-  // Стейт запуска
-  // const isDesktop = window.innerWidth >= 1000;
-  const {UserStore, SnackbarStore, ModalStore, PanelStore} = useStores();
-
-  // const [popout, setPopout] = useState(null);
-  // const [wsConnecting, setWsConnecting] = useState(false);
+  const {UserStore, SnackbarStore, ModalStore, SharingMenuStore} = useStores();
 
   const userInfo = useGetUserInfo();
 
-  const [userToken, setUserToken] = useState<string>("");
-
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     const loginUser = async () => {
-  //       const token = await API.user.loginUser(userInfo);
-
-  //       UserStore.setUserToken("dsfsd");
-  //     };
-  //     loginUser();
-  //   }
-  // }, [userInfo]);
+  console.log("UserStore", toJS(UserStore));
 
   useEffect(() => {
-    console.log("UserStore", UserStore.token);
-  }, [UserStore.token]);
+    // SnackbarStore.setShowSnackbar("test test 123", "danger");
+    // ModalStore.setActiveModal("sharing");
+    // setTimeout(() => {
+    //   SharingMenuStore.resetStore();
+    // }, 3000);
+  }, []);
 
   return (
     <>
@@ -46,6 +41,7 @@ const App: React.FC = observer(() => {
       </Router>
       {/* <Footer /> */}
       <RootModal />
+      <CustomSnackbar />
     </>
   );
 });

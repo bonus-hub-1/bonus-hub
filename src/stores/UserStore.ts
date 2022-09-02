@@ -1,17 +1,19 @@
 import {observable, action, makeObservable} from "mobx";
+import {RecentsType, UserInfoType} from "../types/user";
 
 export class UserStore {
   loading = false;
-  userInfo = null;
-  groups = [];
   token = "";
+  timer = "";
+  hasTries = 0;
+  recents: RecentsType[] = [];
+  refersCount = 0;
 
-  setUserInfo = (data: any) => {
-    this.userInfo = data;
-  };
-
-  setUserGroups = (data: any) => {
-    this.groups = data;
+  setUserInfo = (data: UserInfoType) => {
+    this.hasTries = data.has_tries;
+    this.timer = data.timer;
+    this.recents = data.recents;
+    this.refersCount = data.refers_count;
   };
 
   setUserToken = (token: string) => {
@@ -20,18 +22,17 @@ export class UserStore {
 
   resetStore = () => {
     this.loading = false;
-    this.userInfo = null;
+    this.timer = "";
   };
 
   constructor() {
     makeObservable(this, {
       loading: observable,
-      userInfo: observable,
-      groups: observable,
       token: observable,
+      hasTries: observable,
+      recents: observable,
       resetStore: action,
       setUserInfo: action,
-      setUserGroups: action,
       setUserToken: action,
     });
   }

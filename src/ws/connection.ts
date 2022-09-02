@@ -1,9 +1,9 @@
 import {stores} from "../contexts";
-import {vkValidationParams} from "../utils/constants";
+import {vkValidationParamsString} from "../utils/constants";
 import {dispatchMessage} from "./messageDispatcher";
-const {WsStore} = stores;
+const {WsStore, UserStore} = stores;
 
-const wsReadyState = {
+const wsReadyState: {[key: number]: string} = {
   0: "Сокет создан. Связь еще не открыта.",
   1: "Соединение открыто и готово к общению.",
   2: "Соединение закрывается.",
@@ -14,8 +14,8 @@ const wsReadyState = {
 // URL for WebSocket
 // =================
 
-const wsDevURL = `wss://ods-studio.ru/coinspace/socket${vkValidationParams}`;
-const wsProductionURL = `wss://ods-studio.ru/coinspace/socket${vkValidationParams}`;
+const wsDevURL = `wss://bonushub.myatnenko.ru/api/docs/ws/v1/connect/${vkValidationParamsString}`;
+const wsProductionURL = `wss://bonushub.myatnenko.ru/api/docs/ws/v1/connect/${vkValidationParamsString}`;
 
 const wsURL =
   process.env.NODE_ENV === "development" ? wsDevURL : wsProductionURL;
@@ -24,21 +24,24 @@ const wsURL =
 // Work with WebSocket
 // =================
 
-const wsStart = (wsURL) => {
+const wsStart = (wsUrl: string) => {
   WsStore.changeWsConnectionStatus("connecting");
-  const ws = new WebSocket(wsURL);
+
+  // const token = await UserStore.token;
+
+  const ws = new WebSocket(wsUrl);
 
   // Connected
-  ws.onopen = (e) => {
+  ws.onopen = (e: any) => {
     WsStore.changeWsConnectionStatus("connected");
     console.log(
       `%c Websocket opened ${e.target.url} `,
-      "background-color:green; color: white;padding: 5px; border-radius:5px"
+      "background-color:#8de9e5; color: green;padding: 5px; border-radius:5px"
     );
   };
 
   // Show errors
-  ws.onerror = (e) => {
+  ws.onerror = (e: any) => {
     console.log(
       `%c Websocket error ${wsReadyState[e.currentTarget.readyState]}  `,
       "background-color:red; color: white;padding: 5px; border-radius:5px"
@@ -47,7 +50,7 @@ const wsStart = (wsURL) => {
   };
 
   // Reconnecting
-  ws.onclose = (e) => {
+  ws.onclose = (e: any) => {
     WsStore.changeWsConnectionStatus("disconnected");
     console.log(
       `%c Websocket disconnected ${e.reason} `,
@@ -62,12 +65,18 @@ const wsStart = (wsURL) => {
   };
 
   // WebSocket send message
-  global.wsSend = (action, payload) => {
+  global.wsSend = (action: string, payload: any) => {
     if (ws.readyState === 1) {
+      // ws.send(
+      //   JSON.stringify({
+      //     payload,
+      //     action,
+      //   })
+      // );
+
       ws.send(
         JSON.stringify({
-          payload,
-          action,
+          action: payload,
         })
       );
 
@@ -76,10 +85,12 @@ const wsStart = (wsURL) => {
         "background-color:#1bb5ff; color: white;padding: 5px; border-radius:5px"
       );
     }
+
+    return true;
   };
 
   // WebSocket received message
-  ws.onmessage = (e) => {
+  ws.onmessage = (e: any) => {
     const res = JSON.parse(e.data);
     console.log(
       `%c Websocket received message ${res.action} `,
@@ -90,4 +101,4 @@ const wsStart = (wsURL) => {
   };
 };
 
-// wsStart(wsURL);
+wsStart(wsURL);

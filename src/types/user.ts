@@ -1,9 +1,13 @@
-export type UserType = {
-  id: string;
-  bdate: string;
-  photo_100: string;
-  photo_200: string;
-  photo_max_orig: string;
+export type RecentsType = {
   first_name: string;
   last_name: string;
+  last_time_pressed: string;
+  photo_100: string;
+};
+
+export type UserInfoType = {
+  has_tries: number;
+  timer: string;
+  recents: RecentsType[];
+  refers_count: number;
 };
